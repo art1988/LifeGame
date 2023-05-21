@@ -1,3 +1,3 @@
 # LifeGame
 
-Classic Life Game implementation on Java.
+Classic Life Game implementation in Java.
