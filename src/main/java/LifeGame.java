@@ -1,47 +1,51 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.*;
-import java.util.*;
+import java.awt.image.BufferedImage;
 import java.util.Timer;
+import java.util.TimerTask;
 
-public class LifeGame {
+public class LifeGame
+{
 	private static JFrame window;
 	private static BufferedImage img = new BufferedImage(400, 400, BufferedImage.TYPE_INT_RGB);
 	private static Canvas canvas = new Canvas();
 	
 	private static Graphics imgGr = img.getGraphics();
 	
-	private static final int CELL_SIZE = 4;
+	private static final int CELL_SIZE = 2;
 	
 	private static Cell[][] field = new Cell[img.getWidth() / CELL_SIZE][img.getHeight() / CELL_SIZE];
-	
-	private static void initWindowContent() {
+
+
+	private static void initWindow()
+	{
+		window = new JFrame("Life game");
+		window.setSize(440, 460);
+
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+
+		window.setLocation(dim.width / 3, dim.height / 4);
+		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		window.setVisible(true);
+	}
+
+	private static void initWindowContent()
+	{
 		window.getContentPane().add(canvas);
-		
+
 		for(int y = 0; y < img.getHeight() / CELL_SIZE; y++) {
 			for(int x = 0; x < img.getWidth() / CELL_SIZE; x++) {
 				field[x][y] = new Cell();
 			}
 		}
-		
+
 		// генерируем случайные точки на поле
-		for(int i = 0; i < 2000; i++) {
+		for(int i = 0; i < 2000 * 3; i++) {
 			int x = (int) ((Math.random() * img.getWidth()) / CELL_SIZE),
-			    y = (int) ((Math.random() * img.getHeight()) / CELL_SIZE);
-			
+					y = (int) ((Math.random() * img.getHeight()) / CELL_SIZE);
+
 			field[x][y].turnOn();
 		}
-		
-	}
-	
-	private static void initWindow() {
-		window = new JFrame("Life game");
-		window.setSize(450, 450);
-		
-		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		window.setLocation(dim.width / 4, dim.height / 4);
-		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		window.setVisible(true);
 	}
 	
 	private static void paintCanvas() {
@@ -68,7 +72,7 @@ public class LifeGame {
 		initWindowContent();
 		paintCanvas();
 		
-		new Timer().schedule(new MyTimerTask(), 0, 40);
+		new Timer().schedule(new MyTimerTask(), 0, 50);
 	}
 	
 	public static void main(String[] args) {
@@ -77,7 +81,7 @@ public class LifeGame {
 
 	static class Canvas extends JPanel {
 		public void paintComponent(Graphics g) {
-			g.drawImage(img, 0,0, img.getWidth(), img.getHeight(), null);
+			g.drawImage(img, 10,10, img.getWidth(), img.getHeight(), null);
 		}
 	}
 	
